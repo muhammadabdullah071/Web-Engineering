@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Engineering — Interactive Web Engineering </title>
+  <meta name="description" content="Web Engineering Assignment 01 — a vanilla JavaScript lab demonstrating dynamic DOM generation and a student profile card builder." />
+
+  <!-- Inter typeface (falls back to clean system fonts when offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ======================= NAVIGATION ======================= -->
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a href="#overview" class="nav__brand" id="nav-brand">
+        <span class="nav__logo">Web Engineering<span class="nav__logo-dot">.</span></span>
+        <span class="nav__tagline">Web Engineering · Assignment 01</span>
+      </a>
+
+      <button class="nav__toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+        <span class="nav__toggle-bar"></span>
+      </button>
+
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="#overview" class="nav__link is-active">Overview</a></li>
+        <li><a href="#task-01" class="nav__link">Task 01</a></li>
+        <li><a href="#task-02" class="nav__link">Task 02</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ======================= HERO / OVERVIEW ======================= -->
+    <section class="hero" id="overview" aria-labelledby="hero-title">
+      <div class="container hero__inner">
+        <div class="hero__copy reveal">
+          <p class="eyebrow">Semester Project / 01</p>
+          <h1 class="hero__title" id="hero-title">
+            Small scripts.<br /><span class="hero__title-accent">Smart interfaces.</span>
+          </h1>
+          <p class="hero__text">
+            WebLab is a hands-on laboratory built with pure HTML, CSS and JavaScript.
+            Inside you will find two live exercises that demonstrate
+            <strong>DOM manipulation</strong>, <strong>dynamic content rendering</strong>,
+            <strong>form handling</strong> and <strong>date-based calculations</strong> —
+            no frameworks, just the fundamentals done properly.
+          </p>
+
+          <div class="hero__actions">
+            <a href="#task-01" class="btn btn--primary">Explore Task 01</a>
+            <a href="#task-02" class="btn btn--cyan">Build Your Profile</a>
+          </div>
+
+          <ul class="hero__features" aria-label="Project features">
+            <li class="feature-chip"><span class="feature-chip__dot feature-chip__dot--violet"></span>Vanilla JavaScript</li>
+            <li class="feature-chip"><span class="feature-chip__dot feature-chip__dot--cyan"></span>Responsive UI</li>
+            <li class="feature-chip"><span class="feature-chip__dot feature-chip__dot--violet"></span>DOM Manipulation</li>
+          </ul>
+        </div>
+
+        <!-- Decorative code window (static illustration) -->
+        <aside class="code-window reveal" aria-hidden="true">
+          <div class="code-window__bar">
+            <span class="code-window__dot code-window__dot--r"></span>
+            <span class="code-window__dot code-window__dot--y"></span>
+            <span class="code-window__dot code-window__dot--g"></span>
+            <span class="code-window__filename">script.js</span>
+          </div>
+          <pre class="code-window__body"><code><span class="tok-comment">// weblab — assignment 01</span>
+<span class="tok-keyword">function</span> <span class="tok-function">renderLab</span>() {
+  <span class="tok-keyword">const</span> lab = {
+    stack: [<span class="tok-string">'HTML5'</span>, <span class="tok-string">'CSS3'</span>, <span class="tok-string">'JS'</span>],
+    renders: () => <span class="tok-string">'dynamic'</span>,
+    valid: <span class="tok-keyword">true</span>,
+  };
+  <span class="tok-keyword">return</span> <span class="tok-function">build</span>(lab);
+}
+
+<span class="tok-function">build</span>(<span class="tok-value">lab</span>);  <span class="tok-comment">// → Ready ✦</span></code></pre>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TASK 01 — DYNAMIC CONTENT GENERATOR ======================= -->
+    <section class="section section--task01" id="task-01" aria-labelledby="task-01-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-head__number">01</p>
+          <div>
+            <p class="eyebrow eyebrow--violet">Dynamic DOM Lab</p>
+            <h2 class="section-head__title" id="task-01-title">Dynamic Content Generator</h2>
+            <p class="section-head__text">
+              Three panels below are empty in the HTML. Every heading, paragraph and
+              list item you can see is created at runtime with
+              <code class="inline-code">document.createElement()</code> and inserted with
+              safe <code class="inline-code">textContent</code>.
+            </p>
+          </div>
+        </header>
+
+        <!-- Content Studio card -->
+        <div class="studio reveal">
+          <div class="studio__toolbar">
+            <div>
+              <h3 class="studio__title">Content Studio</h3>
+              <p class="studio__subtitle">Live output generated by script.js</p>
+            </div>
+            <div class="studio__actions">
+              <div class="set-picker" role="group" aria-label="Content sets">
+                <span class="regen-count" id="regen-counter" title="Times content was regenerated">↻ 0×</span>
+                <button type="button" class="set-chip is-current" data-set-index="0" aria-pressed="true">Set 1</button>
+                <button type="button" class="set-chip" data-set-index="1" aria-pressed="false">Set 2</button>
+                <button type="button" class="set-chip" data-set-index="2" aria-pressed="false">Set 3</button>
+              </div>
+              <p class="status-label" id="task1-status" role="status" aria-live="polite">Content generated successfully</p>
+              <button type="button" class="btn btn--primary" id="regenerate-btn">Regenerate Content</button>
+            </div>
+          </div>
+
+          <!-- Panel A — Dynamic Heading -->
+          <article class="panel panel--heading" aria-label="Dynamically generated heading">
+            <span class="panel__badge panel__badge--violet">Element 01</span>
+            <div class="panel__body" id="dynamic-heading"><!-- h3 injected by JS --></div>
+          </article>
+
+          <!-- Panel B — Dynamic Paragraph -->
+          <article class="panel panel--paragraph" aria-label="Dynamically generated paragraph">
+            <span class="panel__badge panel__badge--cyan">Element 02</span>
+            <div class="panel__body" id="dynamic-paragraph"><!-- p injected by JS --></div>
+          </article>
+
+          <!-- Panel C — Dynamic List -->
+          <article class="panel panel--list" aria-label="Dynamically generated list">
+            <span class="panel__badge panel__badge--mint">Element 03</span>
+            <div class="panel__body" id="dynamic-list"><!-- 5-item list injected by JS --></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= TASK 02 — STUDENT IDENTITY CARD ======================= -->
+    <section class="section section--task02" id="task-02" aria-labelledby="task-02-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-head__number">02</p>
+          <div>
+            <p class="eyebrow eyebrow--cyan">Interactive Forms Lab</p>
+            <h2 class="section-head__title" id="task-02-title">Student Identity Card</h2>
+            <p class="section-head__text">
+              A validated form that reads four fields, calculates an exact age from the
+              date of birth and renders a personalized student card — entirely through
+              DOM manipulation.
+            </p>
+          </div>
+        </header>
+
+        <div class="profile-grid">
+          <!-- Left — form -->
+          <div class="form-card reveal">
+            <h3 class="form-card__title">Create your student card</h3>
+            <p class="form-card__hint">Enter your details to generate your profile.</p>
+
+            <form id="student-form" novalidate>
+              <div class="field">
+                <label for="student-name">Full Name <span class="field__req" aria-hidden="true">*</span></label>
+                <input type="text" id="student-name" name="student-name" placeholder="e.g. Ali Raza" autocomplete="name" aria-describedby="student-name-error" required />
+                <p class="field-error" id="student-name-error" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="student-roll">Roll Number <span class="field__req" aria-hidden="true">*</span></label>
+                <input type="text" id="student-roll" name="student-roll" placeholder="e.g. 0042" inputmode="numeric" aria-describedby="student-roll-error" required />
+                <p class="field__note">Leading zeros are preserved (e.g. 0042).</p>
+                <p class="field-error" id="student-roll-error" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="student-section">Section <span class="field__req" aria-hidden="true">*</span></label>
+                <input type="text" id="student-section" name="student-section" placeholder="e.g. BCS-5A" aria-describedby="student-section-error" required />
+                <p class="field-error" id="student-section-error" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="student-dob">Date of Birth <span class="field__req" aria-hidden="true">*</span></label>
+                <input type="date" id="student-dob" name="student-dob" aria-describedby="student-dob-error" required />
+                <p class="field-error" id="student-dob-error" hidden></p>
+              </div>
+
+              <p class="form-error" id="form-error" role="alert" aria-live="assertive" hidden></p>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn--cyan btn--block">Generate Profile Card</button>
+                <button type="button" class="btn btn--ghost btn--block" id="reset-btn">Reset Form</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Right — generated card -->
+          <div class="profile-side reveal">
+            <!-- Empty state -->
+            <div class="profile-empty" id="profile-empty">
+              <div class="profile-empty__icon" aria-hidden="true">🎓</div>
+              <h4 class="profile-empty__title">Your student card lives here</h4>
+              <p class="profile-empty__text">
+                Fill in the form and press <strong>Generate Profile Card</strong> — your
+                personalized identity card with a calculated age will appear in this space.
+              </p>
+            </div>
+
+            <!-- Generated card (populated by JS) -->
+            <article class="profile-card" id="profile-card" tabindex="-1" hidden aria-label="Generated student profile card">
+              <div class="profile-card__header">
+                <span class="profile-card__badge" aria-hidden="true">★</span>
+                <span class="profile-card__label">Student Profile</span>
+              </div>
+
+              <div class="profile-card__body">
+                <div class="profile-card__avatar" id="profile-initials" aria-hidden="true">--</div>
+
+                <p class="profile-card__name" id="profile-name">Student Name</p>
+                <p class="profile-card__num" aria-hidden="true">№ <span id="profile-rollnum">000</span></p>
+
+                <dl class="profile-card__details">
+                  <div class="profile-card__row">
+                    <dt>Roll Number</dt>
+                    <dd id="profile-roll">—</dd>
+                  </div>
+                  <div class="profile-card__row">
+                    <dt>Section</dt>
+                    <dd id="profile-section">—</dd>
+                  </div>
+                  <div class="profile-card__row">
+                    <dt>Date of Birth</dt>
+                    <dd id="profile-dob">—</dd>
+                  </div>
+                  <div class="profile-card__row profile-card__row--age">
+                    <dt>Age</dt>
+                    <dd id="profile-age">—</dd>
+                  </div>
+                </dl>
+
+                <!-- Decorative academic emblem (inline SVG) -->
+                <svg class="profile-card__emblem" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="emblem-grad" x1="0" y1="0" x2="64" y2="64">
+                      <stop offset="0" stop-color="#22D3EE" />
+                      <stop offset="1" stop-color="#8B5CF6" />
+                    </linearGradient>
+                  </defs>
+                  <circle cx="32" cy="32" r="29" stroke="url(#emblem-grad)" stroke-width="2.5" opacity="0.7" />
+                  <path d="M12 26 L32 18 L52 26 L32 34 Z" fill="url(#emblem-grad)" opacity="0.9" />
+                  <path d="M20 30 V38 C20 41 25 43.5 32 43.5 C39 43.5 44 41 44 38 V30" stroke="url(#emblem-grad)" stroke-width="2.5" stroke-linecap="round" />
+                  <line x1="47" y1="28" x2="47" y2="40" stroke="url(#emblem-grad)" stroke-width="2.5" stroke-linecap="round" />
+                  <circle cx="47" cy="42" r="2.4" fill="url(#emblem-grad)" />
+                </svg>
+              </div>
+
+              <footer class="profile-card__footer">
+                <span>Weblab · Student ID</span>
+                <span id="profile-issue">Issued locally</span>
+              </footer>
+            </article>
+
+            <!-- Print action — only available while a valid card exists -->
+            <div class="print-row" id="print-row" hidden>
+              <button type="button" class="btn btn--cyan print-btn" id="print-btn" aria-label="Print the generated student card (only the card will print)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M6 9V3h12v6" />
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                  <rect x="6" y="14" width="12" height="7" rx="1" />
+                </svg>
+                Print Student Card
+              </button>
+            </div>
+
+            <p class="status-label status-label--success" id="profile-status" role="status" aria-live="polite" hidden></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================= FOOTER ======================= -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div>
+        <p class="site-footer__brand">WebLab<span class="nav__logo-dot">.</span></p>
+        <p class="site-footer__meta">Web Engineering Assignment 01</p>
+      </div>
+      <p class="site-footer__stack">Built with HTML, CSS & JavaScript — no frameworks</p>
+      <a href="#overview" class="site-footer__top" id="back-to-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
